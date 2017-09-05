@@ -14,11 +14,12 @@ public class AbstractExample7 {
            AbstractExamp obj= new AbstractExamp() {
 
 			public void add() {
-				// TODO Auto-generated method stub
-				
+				System.out.println("From add() method of Anonymous class");
 			}
         	   
            };
+           
+           obj.add();
     }
 
 }
