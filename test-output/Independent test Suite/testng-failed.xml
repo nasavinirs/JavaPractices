@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Failed suite [Independent test Suite]">
+  <test name="Independent test">
+    <classes>
+      <class name="com.practice.IndependentTest"/>
+    </classes>
+  </test> <!-- Independent test -->
+</suite> <!-- Failed suite [Independent test Suite] -->
