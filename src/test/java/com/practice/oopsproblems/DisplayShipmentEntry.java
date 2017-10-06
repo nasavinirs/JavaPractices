@@ -1,4 +1,4 @@
-package com.practice.oopsproblems;
+/* package com.practice.oopsproblems;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -213,7 +213,7 @@ public class DisplayShipmentEntry {
 			} else if (option == 3) {
 				agent[i] = new Agent(input[0], input[1], input[2], input[3], input[4]);
 			} else if (option == 4) {
-				carrier[i] = new Carrier(input[0], input[1], input[2], input[2]);
+				carrier[i] = new Carrier(input[0], input[1], input[2], input[3]);
 			}
 		}
 
@@ -259,3 +259,4 @@ public class DisplayShipmentEntry {
 	}
 
 }
+*/

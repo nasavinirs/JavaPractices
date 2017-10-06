@@ -1,4 +1,4 @@
-package com.practice.oopsproblems;
+/* package com.practice.oopsproblems;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -160,3 +160,4 @@ public class CalculateTotalAmount {
 		}
 	}
 }
+*/
