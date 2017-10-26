@@ -106,12 +106,7 @@ class ShipmentBO1 {
 		}
 		if (weight > container.containerWeight) {
 			throw new ContainerOverloadedException("Container is overloaded");
-		} else {
-			System.out.println("Commodity details are");
-			System.out.format("%-15s%-15s%s\n", "Id", "Weight", "Quantity");
-			container.displayDetails();
-		}
-
+		} 
 	}
 }
 
@@ -136,6 +131,9 @@ public class ContainerOverloadedExceptionPrgm {
 			}
 			Container container = new Container(containerNo, capacity, commodities);
 			shipmentBO.validate(container, commodities);
+			System.out.println("Commodity details are");
+			System.out.format("%-15s%-15s%s\n", "Id", "Weight", "Quantity");
+			container.displayDetails();
 		} catch (ContainerOverloadedException coe) {
 			System.out.println("ContainerOverloadedException: Container is overloaded");
 		} catch (IOException ioe) {

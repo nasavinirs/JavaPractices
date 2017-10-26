@@ -119,10 +119,18 @@ class Shipment {
 }
 
 class ShipmentBO {
-	public boolean validateShipment(String s1, String s2, Port[] p) {
-		for (int i = 0; i < p.length; i++) {
-			if (p[i].getName().equalsIgnoreCase(s1) || p[i].getName().equalsIgnoreCase(s2)) {
-				return true;
+	public boolean validateShipment(String s1, String s2, Port[] p) throws InvalidPortException {
+		if (s1.equalsIgnoreCase(s2)) {
+			try {
+				throw new InvalidPortException("InvalidPortException: The port name is invalid");
+			} catch (InvalidPortException e) {
+				System.out.println(e.getMessage());
+			}
+		} else {
+			for (int i = 0; i < p.length; i++) {
+				if (p[i].getName().equalsIgnoreCase(s1) || p[i].getName().equalsIgnoreCase(s2)) {
+					return true;
+				}
 			}
 		}
 		return false;
@@ -142,45 +150,44 @@ class ShipmentBO {
 
 public class InvalidPortExceptionPrgm {
 
-	public static void main(String args[]) throws IOException {
-		ShipmentBO shipmentBO = new ShipmentBO();
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		Port[] port = new Port[4];
-		port[0] = new Port(1, "India", "Chennai");
-		port[1] = new Port(2, "America", "California");
-		port[2] = new Port(3, "England", "London");
-		port[3] = new Port(4, "Australia", "Melbourne");
-		Shipment shipment = new Shipment();
+	public static void main(String args[]) {
+		try
+		{
+			ShipmentBO shipmentBO = new ShipmentBO();
+			BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+			Port[] port = new Port[4];
+			port[0] = new Port(1, "India", "Chennai");
+			port[1] = new Port(2, "America", "California");
+			port[2] = new Port(3, "England", "London");
+			port[3] = new Port(4, "Australia", "Melbourne");
+			Shipment shipment = new Shipment();
 
-		System.out.println("Enter the Shipment Id ");
-		shipment.setId(Integer.parseInt(br.readLine()));
-		System.out.println("Enter the Shipment Name ");
-		shipment.setName(br.readLine());
-		System.out.println("Available ports are");
-		System.out.format("%-15s %-15s %s", "ID", "Country", "PortName");
-		for (int i = 0; i < port.length; i++) {
-			System.out.format("\n%-15s %-15s %s", port[i].getId(), port[i].getCountry(), port[i].getName());
-		}
-
-		System.out.println("\nEnter the arrival port name");
-		String arrivalPort = br.readLine();
-		System.out.println("Enter the departure port name");
-		String departurePort = br.readLine();
-
-		if (arrivalPort.equals(departurePort)) {
-			try {
-				throw new InvalidPortException("InvalidPortException: The port name is invalid");
-			} catch (InvalidPortException e) {
-				System.out.println(e.getMessage());
+			System.out.println("Enter the Shipment Id ");
+			shipment.setId(Integer.parseInt(br.readLine()));
+			System.out.println("Enter the Shipment Name ");
+			shipment.setName(br.readLine());
+			System.out.println("Available ports are");
+			System.out.format("%-15s %-15s %s", "ID", "Country", "PortName");
+			for (int i = 0; i < port.length; i++) {
+				System.out.format("\n%-15s %-15s %s", port[i].getId(), port[i].getCountry(), port[i].getName());
 			}
-		} else {
+
+			System.out.println("\nEnter the arrival port name");
+			String arrivalPort = br.readLine();
+			System.out.println("Enter the departure port name");
+			String departurePort = br.readLine();
+
 			boolean valid = shipmentBO.validateShipment(arrivalPort, departurePort, port);
 			if (valid) {
 				System.out.println("Shipment Details :");
-				System.out.format("%-15s%-15s%-15s%-15s\n", "Shipment id", "Shipment name", "Arrival place",
+				System.out.format("%-16s%-16s%-16s%-15s\n", "Shipment id", "Shipment name", "Arrival place",
 						"Departure place");
 				shipmentBO.displayShipmentDetails(shipment, port, arrivalPort, departurePort);
 			}
+		} catch (InvalidPortException coe) {
+			System.out.println("InvalidPortException: The port name is invalid");
+		} catch (IOException ioe) {
+			System.out.println(ioe.getMessage());
 		}
 	}
 }
