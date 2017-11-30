@@ -28,31 +28,40 @@ public class RoleDAO {
 		Connection connection = null;
 		Statement statement = null;
 		ResultSet resultSet = null;
-		List<Role> rList  = new ArrayList<Role>(); 
+		List<Integer> rList = new ArrayList<Integer>();
+		List<Integer> prList = new ArrayList<Integer>();
 		connection = DbConnection.getConnection();
 		statement = connection.createStatement();
 		statement.executeUpdate("INSERT INTO role(name) VALUES('" + roleIns.getName() + "');");
 
 		ROLEQUERY = "SELECT id FROM role WHERE name = '" + roleIns.getName() + "'";
-		
 
 		resultSet = statement.executeQuery(ROLEQUERY);
 
 		while (resultSet.next()) {
-			privilegeList.add(new Privilege());
-			PRIVILEGEQUERY = "SELECT id FROM privilege WHERE name = '" + resultSet.getString(1) + "'";
+			rList.add(resultSet.getInt(1));
 		}
 
+		for (Privilege privilege : pList) {
+			PRIVILEGEQUERY = "SELECT id FROM privilege WHERE name = '" + privilege.getName() + "'";
+			resultSet = statement.executeQuery(PRIVILEGEQUERY);
+			while (resultSet.next()) {
+				prList.add(resultSet.getInt(1));
+			}
+		}
+
+		for (int i = 0; i < prList.size(); i++) {
+			statement.executeUpdate("INSERT INTO role_privilege(role_id, privilege_id) VALUES(" + rList.get(0) + ","
+					+ prList.get(i) + ");");
+		}
 		connection.close();
 
 	}
 
 	public List<Privilege> getPrivilegeByRole(String role) throws ClassNotFoundException, SQLException {
-		String QUERY = "SELECt p.name FROM privilege p\r\n" + 
-					   "INNER JOIN role_privilege rp\r\n" + 
-					   "ON p.id = rp.privilege_id\r\n" + 
-					   "INNER JOIN role r\r\n" + "ON r.id = rp.role_id\r\n" + 
-					   "WHERE r.name = '" + role + "'";
+		String QUERY = "SELECt p.name FROM privilege p\r\n" + "INNER JOIN role_privilege rp\r\n"
+				+ "ON p.id = rp.privilege_id\r\n" + "INNER JOIN role r\r\n" + "ON r.id = rp.role_id\r\n"
+				+ "WHERE r.name = '" + role + "'";
 		Connection connection = null;
 		Statement statement = null;
 		ResultSet resultSet = null;

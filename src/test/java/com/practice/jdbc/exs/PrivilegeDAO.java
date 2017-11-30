@@ -8,9 +8,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PrivilegeDAO {
-	private static final String QUERY = "SELECT id, name FROM privilege";
+	
 
 	public List<Privilege> getAllPrivileges() throws SQLException, ClassNotFoundException {
+		String QUERY = "SELECT id, name FROM privilege";
 		Connection connection = null;
 		Statement statement = null;
 		ResultSet resultSet = null;

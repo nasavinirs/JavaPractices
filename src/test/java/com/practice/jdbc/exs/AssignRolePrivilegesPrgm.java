@@ -35,6 +35,7 @@ public class AssignRolePrivilegesPrgm {
 				privilegeList.add(new Privilege(rolesPrivilege[j]));
 			}
 			roleDAO.createRole(new Role(0, rolesPrivilege[0]), privilegeList);
+			privilegeList.clear();
 		}
 
 		System.out.println("Enter the Role :");
@@ -42,7 +43,9 @@ public class AssignRolePrivilegesPrgm {
 		System.out.println("Privileges for " + rol + " :");
 
 		List<Privilege> privilegeByRole = roleDAO.getPrivilegeByRole(rol);
-
+		for(Privilege privilege : privilegeByRole) {
+			System.out.println(privilege.getName());
+		}
 	} 
 
 }

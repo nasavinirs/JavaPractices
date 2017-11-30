@@ -102,9 +102,14 @@ class ContactBO {
 		regexPattern = Pattern.compile(EMAIL_PATTERN);
 		regMatcher = regexPattern.matcher(co.getEmail());
 		if ((co.getStreetName().equals("") || co.getAddress().equals("") || co.getCity().equals("")
-				|| co.getState().equals("")) || (co.getPhoneNumber().length() != 10) || (!regMatcher.matches())) {
+				|| co.getState().equals(""))) {
 			throw new InvalidContactException("InvalidContactException: Make sure you entered all the fields");
-		} else {
+		} else if(co.getPhoneNumber().length() != 10) {
+			throw new InvalidContactException("InvalidContactException: Invalid Phone Number");
+		} else if(!regMatcher.matches()) {
+			throw new InvalidContactException("InvalidContactException: Invalid Email Address");
+		}  
+		else {
 			return true;
 		}
 	}
