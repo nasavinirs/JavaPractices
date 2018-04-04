@@ -2,6 +2,7 @@ package com.practice.iosw;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -132,9 +133,9 @@ class UserBO {
 			e.printStackTrace();
 
 		}
-		System.out.println("User Information saved successfully");
 	}
 }
+
 
 public class DisplayUserDetailsPrgm {
 	private static final String FILENAME = "src/test/java/com/practice/iosw/userrole.txt";
@@ -172,6 +173,7 @@ public class DisplayUserDetailsPrgm {
 			userList.add(new User(id, fname, lname, uname, password, mobile, new Role(roleId, role)));
 		}
 		userBO.saveAllUser(userList, FILENAME);
+		System.out.println("User Information saved successfully");
 	}
 
 }

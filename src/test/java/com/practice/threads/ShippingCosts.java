@@ -94,7 +94,26 @@ class Cargo {
 
 class ShippingCostThread extends Thread {
 	List<Cargo> cargoList;
-	List<Double> priceList;
+	List<Double> priceList = new ArrayList<>();
+
+	public void run() {
+
+		for (int i = 0; i < cargoList.size(); i++) {
+			if (cargoList.get(i).getStorageType().equalsIgnoreCase(Cargo.COLD_STORAGE)) {
+
+				priceList.add((double) (cargoList.get(i).getWeight() * 1.85));
+			}
+			if (cargoList.get(i).getStorageType().equalsIgnoreCase(Cargo.DRY_STORAGE)) {
+
+				priceList.add((double) (cargoList.get(i).getWeight() * 0.90));
+			}
+		}
+		ShippingCosts.displayPrice(priceList);
+	}
+
+	public ShippingCostThread(List<Cargo> cargoList) {
+		this.cargoList = cargoList;
+	}
 
 	public List<Cargo> getCargoList() {
 		return cargoList;
@@ -112,43 +131,38 @@ class ShippingCostThread extends Thread {
 		this.priceList = priceList;
 	}
 
-	public void run() {
-
-	}
 }
 
 public class ShippingCosts {
 
-	public static void main(String[] args) {
-		try {
-			List<Cargo> cargoList = new ArrayList<Cargo>();
-			List<Double> priceList = new ArrayList<Double>();
-			BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-			System.out.println("Enter the number of Cargo:");
-			int n = Integer.parseInt(br.readLine());
-			Cargo[] cargo = new Cargo[n];
-			System.out.println("Enter cargo details (id,length,width,weight,cargo type,storage type):");
-			String input[] = new String[n];
-			for (int i = 0; i < n; i++) {
-				input[i] = br.readLine();
-				cargo[i] = new Cargo(input[i]);
-			}
+	public static void main(String args[]) throws IOException, InterruptedException {
 
-			Thread t1 = new ShippingCostThread();
-			Thread t2 = new ShippingCostThread();
-			
-			t1.start();
-			t2.start();
-			t1.join();
-			t2.join();
-			
-			System.out.println("Price List:");
-		} catch (InterruptedException ie) {
+		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+		System.out.println("Enter the number of Cargo:");
+		int numberOfCargo = Integer.parseInt(reader.readLine());
 
-		} catch (IOException ioe) {
-
+		System.out.println("Enter cargo details (id,length,width,weight,cargo type,storage type):");
+		List<Cargo> cargoList = new ArrayList<Cargo>();
+		for (int i = 0; i < numberOfCargo; i++) {
+			cargoList.add(new Cargo(reader.readLine()));
 		}
+		System.out.println("Price List:");
+		Thread temp = new ShippingCostThread(cargoList.subList(0, (int) Math.floor(cargoList.size() / 2)));
+		
+		Thread temp1 = new ShippingCostThread(
+				cargoList.subList((int) Math.floor(cargoList.size() / 2), cargoList.size()));
+		Thread.currentThread().setPriority(Thread.MAX_PRIORITY);
+		temp.start();
+		temp.join();
+		temp1.start();
+		temp1.join();
+		
+	}
 
+	public static void displayPrice(List<Double> list) {
+		for (int i = 0; i < list.size(); i++) {
+			System.out.println(list.get(i));
+		}
 	}
 
 }
